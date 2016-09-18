@@ -4,12 +4,14 @@ RUN apk update \
 && apk add \
     ca-certificates \
     libstdc++ \
+    libgfortran \
     python3 \
 && apk add --virtual=build_dependencies \
     gfortran \
     g++ \
     make \
     python3-dev \
+&& ln -s /usr/include/locale.h /usr/include/xlocale.h \
 && mkdir -p /tmp/build \
 && cd /tmp/build/ \
 && wget http://www.netlib.org/blas/blas-3.6.0.tgz \
@@ -32,5 +34,5 @@ RUN apk update \
 && python3 -m pip --no-cache-dir install pip -U \
 && python3 -m pip --no-cache-dir install scipy \
 && apk del --purge -r build_dependencies \
-&& rm -rf /build \
+&& rm -rf /tmp/build \
 && rm -rf /var/cache/apk/*
